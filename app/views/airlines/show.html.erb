@@ -1,0 +1,77 @@
+<% content_for :title, @airline.name %>
+
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><%= link_to "Airlines", airlines_path %></li>
+    <li class="breadcrumb-item active" aria-current="page"><%= @airline.name %></li>
+  </ol>
+</nav>
+
+<h1><%= @airline.name %></h1>
+
+<div class="row g-4">
+  <div class="col-lg-4">
+    <div class="card mb-4">
+      <div class="card-header">Airline details</div>
+      <div class="card-body">
+        <dl class="row mb-0">
+          <dt class="col-sm-5">IATA code</dt>
+          <dd class="col-sm-7"><%= @airline.iata_code %></dd>
+
+          <dt class="col-sm-5">ICAO code</dt>
+          <dd class="col-sm-7"><%= @airline.icao_code.presence || "None" %></dd>
+
+          <dt class="col-sm-5">Callsign</dt>
+          <dd class="col-sm-7"><%= @airline.callsign.presence || "None" %></dd>
+
+          <dt class="col-sm-5">Country</dt>
+          <dd class="col-sm-7"><%= @airline.country %></dd>
+
+          <dt class="col-sm-5">Active</dt>
+          <dd class="col-sm-7"><%= yes_no(@airline.active) %></dd>
+
+          <dt class="col-sm-5">Routes</dt>
+          <dd class="col-sm-7"><%= @airline.routes.count %></dd>
+        </dl>
+      </div>
+    </div>
+
+    <h2 class="h4">Airports served (<%= @airports.size %>)</h2>
+    <ul class="list-group mb-4">
+      <% @airports.each do |airport| %>
+        <li class="list-group-item">
+          <%= link_to "#{airport.name} (#{airport.display_code})", airport %>
+          <br><small class="text-muted"><%= airport.province.name %></small>
+        </li>
+      <% end %>
+    </ul>
+  </div>
+
+  <div class="col-lg-8">
+    <h2 class="h4">Routes</h2>
+    <div class="table-responsive">
+      <table class="table table-sm table-striped align-middle">
+        <thead>
+          <tr>
+            <th scope="col">From</th>
+            <th scope="col">To</th>
+            <th scope="col">Stops</th>
+            <th scope="col">Equipment</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @routes.each do |route| %>
+            <tr>
+              <td><%= link_to "#{route.origin_airport.name} (#{route.origin_airport.display_code})", route.origin_airport %></td>
+              <td><%= link_to "#{route.destination_airport.name} (#{route.destination_airport.display_code})", route.destination_airport %></td>
+              <td><%= route.stops.zero? ? "Non-stop" : route.stops %></td>
+              <td><%= route.equipment %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+
+    <%= paginate @routes %>
+  </div>
+</div>
