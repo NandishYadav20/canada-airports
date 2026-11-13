@@ -1,0 +1,25 @@
+<% content_for :title, "Provinces & Territories" %>
+
+<h1>Provinces &amp; Territories</h1>
+<p>Select a province or territory to see its airports.</p>
+
+<div class="table-responsive">
+  <table class="table table-striped table-hover align-middle">
+    <thead>
+      <tr>
+        <th scope="col">Name</th>
+        <th scope="col">Code</th>
+        <th scope="col" class="text-end">Airports</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @provinces.each do |province| %>
+        <tr>
+          <td><%= link_to province.name, province %></td>
+          <td><%= province.local_code %></td>
+          <td class="text-end"><%= province.airports_count %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
