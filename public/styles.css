@@ -1,0 +1,14 @@
+.map {
+  height: 420px;
+  width: 100%;
+}
+
+.stars {
+  color: #f0ad4e;
+  letter-spacing: 2px;
+}
+
+.erd {
+  max-width: 100%;
+  height: auto;
+}
