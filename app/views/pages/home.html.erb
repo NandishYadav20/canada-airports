@@ -1,0 +1,66 @@
+<% content_for :title, "Home" %>
+
+<div class="p-4 p-md-5 mb-4 bg-light rounded-3 border">
+  <h1 class="display-6 fw-bold">Canadian Airports &amp; Air Routes</h1>
+  <p class="lead mb-0">
+    Explore Canada's large and medium airports, the airlines that fly between them,
+    and traveller reviews of each airport.
+  </p>
+</div>
+
+<h2 class="h4">Find an airport</h2>
+<%= render "shared/search_form", provinces: @provinces %>
+
+<div class="row g-3 mb-4">
+  <div class="col-6 col-lg-3">
+    <div class="card text-center h-100">
+      <div class="card-body">
+        <p class="display-6 mb-0"><%= Province.count %></p>
+        <p class="mb-0"><%= link_to "Provinces & territories", provinces_path %></p>
+      </div>
+    </div>
+  </div>
+  <div class="col-6 col-lg-3">
+    <div class="card text-center h-100">
+      <div class="card-body">
+        <p class="display-6 mb-0"><%= Airport.count %></p>
+        <p class="mb-0"><%= link_to "Airports", airports_path %></p>
+      </div>
+    </div>
+  </div>
+  <div class="col-6 col-lg-3">
+    <div class="card text-center h-100">
+      <div class="card-body">
+        <p class="display-6 mb-0"><%= Airline.count %></p>
+        <p class="mb-0"><%= link_to "Airlines", airlines_path %></p>
+      </div>
+    </div>
+  </div>
+  <div class="col-6 col-lg-3">
+    <div class="card text-center h-100">
+      <div class="card-body">
+        <p class="display-6 mb-0"><%= Review.count %></p>
+        <p class="mb-0"><%= link_to "Reviews", reviewers_path %></p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row g-4">
+  <div class="col-md-6">
+    <h2 class="h4">Browse by province or territory</h2>
+    <ul class="list-group">
+      <% @provinces.each do |province| %>
+        <li class="list-group-item"><%= link_to province.name, province %></li>
+      <% end %>
+    </ul>
+  </div>
+  <div class="col-md-6">
+    <h2 class="h4">Busiest airports (by departing routes)</h2>
+    <ol class="list-group list-group-numbered">
+      <% @busiest_airports.each do |airport| %>
+        <li class="list-group-item"><%= link_to "#{airport.name} (#{airport.display_code})", airport %></li>
+      <% end %>
+    </ol>
+  </div>
+</div>

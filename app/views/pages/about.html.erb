@@ -1,0 +1,58 @@
+<% content_for :title, "About" %>
+
+<h1>About This Project</h1>
+<p class="lead">
+  Canada Airports is a Ruby on Rails application that combines open aviation data with
+  generated traveller reviews so users can browse, search and map Canadian airports.
+</p>
+
+<div class="row g-4">
+  <div class="col-lg-6">
+    <h2 class="h4">Data sources</h2>
+    <ol>
+      <li>
+        <strong>OurAirports – regions.csv</strong>
+        (<a href="https://github.com/davidmegginson/ourairports-data">github.com/davidmegginson/ourairports-data</a>):
+        Canada's provinces and territories. Each row has a region code (e.g. <code>CA-MB</code>),
+        a local code, a name and a Wikipedia link. Stored in the <code>provinces</code> table.
+      </li>
+      <li>
+        <strong>OurAirports – airports.csv</strong>:
+        every airport in the world with its ICAO identifier, IATA code, type, latitude, longitude,
+        elevation, city and region code. Only Canadian large and medium airports are imported into
+        the <code>airports</code> table.
+      </li>
+      <li>
+        <strong>OpenFlights – airlines.dat</strong>
+        (<a href="https://github.com/jpatokal/openflights">github.com/jpatokal/openflights</a>):
+        airline name, IATA/ICAO codes, callsign, country and active flag. Stored in the
+        <code>airlines</code> table.
+      </li>
+      <li>
+        <strong>OpenFlights – routes.dat</strong>:
+        one row per airline route with the airline ID, origin and destination airport IATA codes,
+        number of stops and aircraft equipment. Routes between imported Canadian airports are stored
+        in the <code>routes</code> table.
+      </li>
+      <li>
+        <strong>Faker gem</strong>: fake reviewers (name, email, home city) stored in the
+        <code>reviewers</code> table, and airport reviews (rating, title, comment, visit date)
+        stored in the <code>reviews</code> table.
+      </li>
+    </ol>
+
+    <h2 class="h4">How the data is related</h2>
+    <ul>
+      <li>A <strong>province</strong> has many <strong>airports</strong>, linked by the airport's region code (<code>iso_region</code>).</li>
+      <li>OpenFlights routes are matched to OurAirports airports using the shared <strong>IATA code</strong>,
+        and to airlines using the OpenFlights airline ID.</li>
+      <li><strong>Airlines</strong> and <strong>airports</strong> are many-to-many through the <code>routes</code> join table.</li>
+      <li><strong>Reviewers</strong> and <strong>airports</strong> are many-to-many through the <code>reviews</code> join table.</li>
+    </ul>
+  </div>
+
+  <div class="col-lg-6">
+    <h2 class="h4">Database ERD</h2>
+    <img src="/erd.png" alt="Entity relationship diagram of the provinces, airports, airlines, routes, reviewers and reviews tables" class="erd border rounded">
+  </div>
+</div>
