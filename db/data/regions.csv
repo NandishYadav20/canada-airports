@@ -1,0 +1,15 @@
+id,code,local_code,name,continent,iso_country,wikipedia_link,keywords
+303294,CA-AB,AB,Alberta,NA,CA,https://en.wikipedia.org/wiki/Alberta,Albertan airports
+303295,CA-BC,BC,British Columbia,NA,CA,https://en.wikipedia.org/wiki/British_Columbia,British Columbian airports
+303296,CA-MB,MB,Manitoba,NA,CA,https://en.wikipedia.org/wiki/Manitoba,Airports in Manitoba
+303297,CA-NB,NB,New Brunswick,NA,CA,https://en.wikipedia.org/wiki/New_Brunswick,Airports in New Brunswick
+303298,CA-NL,NL,Newfoundland and Labrador,NA,CA,https://en.wikipedia.org/wiki/Newfoundland_and_Labrador,Airports in Newfoundland and Labrador
+303299,CA-NS,NS,Nova Scotia,NA,CA,https://en.wikipedia.org/wiki/Nova_Scotia,Nova Scotian airports
+303300,CA-NT,NT,Northwest Territories,NA,CA,https://en.wikipedia.org/wiki/Northwest_Territories,Airports in Northwest Territories
+303301,CA-NU,NU,Nunavut,NA,CA,https://en.wikipedia.org/wiki/Nunavut,Airports in Nunavut
+303302,CA-ON,ON,Ontario,NA,CA,https://en.wikipedia.org/wiki/Ontario,Airports in Ontario
+303303,CA-PE,PE,Prince Edward Island,NA,CA,https://en.wikipedia.org/wiki/Prince_Edward_Island,Airports in Prince Edward Island
+303304,CA-QC,QC,Quebec,NA,CA,https://en.wikipedia.org/wiki/Quebec,Aéroports du Québec
+303305,CA-SK,SK,Saskatchewan,NA,CA,https://en.wikipedia.org/wiki/Saskatchewan,Airports in Saskatchewan
+303306,CA-U-A,U-A,(unassigned),NA,CA,,Airports in (unassigned)
+303307,CA-YT,YT,Yukon,NA,CA,https://en.wikipedia.org/wiki/Yukon_Territory,Airports in Yukon
