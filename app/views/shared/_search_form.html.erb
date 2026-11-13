@@ -1,0 +1,16 @@
+<%= form_with url: airports_path, method: :get, local: true, class: "row g-2 align-items-end mb-4", role: "search" do %>
+  <div class="col-md-6">
+    <%= label_tag :q, "Search airports (name, city or code)", class: "form-label" %>
+    <%= search_field_tag :q, params[:q], class: "form-control", placeholder: "e.g. Winnipeg or YWG" %>
+  </div>
+  <div class="col-md-4">
+    <%= label_tag :province_id, "Province / territory", class: "form-label" %>
+    <%= select_tag :province_id,
+                   options_from_collection_for_select(provinces, :id, :name, params[:province_id]),
+                   include_blank: "All provinces and territories",
+                   class: "form-select" %>
+  </div>
+  <div class="col-md-2 d-grid">
+    <%= submit_tag "Search", name: nil, class: "btn btn-primary" %>
+  </div>
+<% end %>
