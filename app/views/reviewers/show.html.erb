@@ -1,0 +1,52 @@
+<% content_for :title, @reviewer.name %>
+
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><%= link_to "Reviewers", reviewers_path %></li>
+    <li class="breadcrumb-item active" aria-current="page"><%= @reviewer.name %></li>
+  </ol>
+</nav>
+
+<h1><%= @reviewer.name %></h1>
+
+<div class="row g-4">
+  <div class="col-lg-4">
+    <div class="card">
+      <div class="card-header">Reviewer details</div>
+      <div class="card-body">
+        <dl class="row mb-0">
+          <dt class="col-sm-5">Email</dt>
+          <dd class="col-sm-7 text-break"><%= @reviewer.email %></dd>
+
+          <dt class="col-sm-5">Home city</dt>
+          <dd class="col-sm-7"><%= @reviewer.home_city %></dd>
+
+          <dt class="col-sm-5">Airports reviewed</dt>
+          <dd class="col-sm-7"><%= @reviewer.airports.count %></dd>
+        </dl>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-lg-8">
+    <h2 class="h4">Reviews (<%= @reviews.size %>)</h2>
+    <% if @reviews.any? %>
+      <% @reviews.each do |review| %>
+        <div class="card mb-3">
+          <div class="card-body">
+            <h3 class="h6 card-title">
+              <%= link_to "#{review.airport.name} (#{review.airport.display_code})", review.airport %>
+              <small class="text-muted">– <%= link_to review.airport.province.name, review.airport.province %></small>
+            </h3>
+            <p class="stars mb-1"><span class="visually-hidden">Rating: <%= review.rating %> out of 5</span><span aria-hidden="true"><%= stars(review.rating) %></span></p>
+            <p class="fw-semibold mb-1"><%= review.title %></p>
+            <p class="card-text"><%= review.comment %></p>
+            <p class="small text-muted mb-0">Visited <%= review.visited_on&.strftime("%B %-d, %Y") %></p>
+          </div>
+        </div>
+      <% end %>
+    <% else %>
+      <p class="text-muted">This reviewer has not written any reviews.</p>
+    <% end %>
+  </div>
+</div>

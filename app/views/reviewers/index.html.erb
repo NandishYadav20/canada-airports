@@ -1,0 +1,27 @@
+<% content_for :title, "Reviewers" %>
+
+<h1>Reviewers</h1>
+<p>Travellers who have reviewed Canadian airports.</p>
+
+<div class="table-responsive">
+  <table class="table table-striped table-hover align-middle">
+    <thead>
+      <tr>
+        <th scope="col">Name</th>
+        <th scope="col">Home city</th>
+        <th scope="col" class="text-end">Reviews</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @reviewers.each do |reviewer| %>
+        <tr>
+          <td><%= link_to reviewer.name, reviewer %></td>
+          <td><%= reviewer.home_city %></td>
+          <td class="text-end"><%= reviewer.reviews_count %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
+
+<%= paginate @reviewers %>
