@@ -1,0 +1,48 @@
+<% content_for :title, @province.name %>
+
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><%= link_to "Provinces", provinces_path %></li>
+    <li class="breadcrumb-item active" aria-current="page"><%= @province.name %></li>
+  </ol>
+</nav>
+
+<h1><%= @province.name %> <small class="text-muted">(<%= @province.local_code %>)</small></h1>
+<p>
+  Region code: <code><%= @province.code %></code>
+  <% if @province.wikipedia_link.present? %>
+    · <%= link_to "Wikipedia", @province.wikipedia_link %>
+  <% end %>
+</p>
+
+<% if @airports.any? %>
+  <%= render "shared/map",
+             label: "Map of airports in #{@province.name}",
+             markers: @airports.map { |a| { name: a.name, code: a.display_code, lat: a.latitude.to_f, lng: a.longitude.to_f, url: airport_path(a) } } %>
+
+  <h2 class="h4"><%= pluralize(@airports.size, "airport") %></h2>
+  <div class="table-responsive">
+    <table class="table table-striped table-hover align-middle">
+      <thead>
+        <tr>
+          <th scope="col">Airport</th>
+          <th scope="col">Code</th>
+          <th scope="col">City</th>
+          <th scope="col">Type</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @airports.each do |airport| %>
+          <tr>
+            <td><%= link_to airport.name, airport %></td>
+            <td><%= airport.display_code %></td>
+            <td><%= airport.municipality %></td>
+            <td><%= airport.type_label %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+<% else %>
+  <div class="alert alert-info">No airports were imported for this province.</div>
+<% end %>
