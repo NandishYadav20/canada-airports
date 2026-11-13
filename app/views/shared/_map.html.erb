@@ -1,0 +1,33 @@
+<%# Leaflet + OpenStreetMap map. markers: array of hashes with name, code, lat, lng, url %>
+<div id="map" class="map rounded border mb-4" role="region" aria-label="<%= label %>"></div>
+
+<% content_for :scripts do %>
+  <script>
+    (function () {
+      var markers = <%= raw markers.to_json %>;
+      var map = L.map("map");
+
+      L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
+        maxZoom: 18,
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+      }).addTo(map);
+
+      var bounds = [];
+      markers.forEach(function (m) {
+        var link = document.createElement("a");
+        link.href = m.url;
+        link.textContent = m.name + " (" + m.code + ")";
+        L.marker([m.lat, m.lng]).addTo(map).bindPopup(link);
+        bounds.push([m.lat, m.lng]);
+      });
+
+      if (bounds.length === 1) {
+        map.setView(bounds[0], 11);
+      } else if (bounds.length > 1) {
+        map.fitBounds(bounds, { padding: [20, 20] });
+      } else {
+        map.setView([56.13, -106.35], 3);
+      }
+    })();
+  </script>
+<% end %>
