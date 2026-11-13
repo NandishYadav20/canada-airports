@@ -1,0 +1,73 @@
+erDiagram
+    PROVINCES ||--o{ AIRPORTS : "has many"
+    AIRPORTS ||--o{ ROUTES : "origin of"
+    AIRPORTS ||--o{ ROUTES : "destination of"
+    AIRLINES ||--o{ ROUTES : "operates"
+    AIRPORTS ||--o{ REVIEWS : "receives"
+    REVIEWERS ||--o{ REVIEWS : "writes"
+
+    PROVINCES {
+        integer id PK
+        string name
+        string code
+        string local_code
+        string wikipedia_link
+        datetime created_at
+        datetime updated_at
+    }
+    AIRPORTS {
+        integer id PK
+        string name
+        string ident
+        string iata_code
+        string airport_type
+        decimal latitude
+        decimal longitude
+        integer elevation_ft
+        string municipality
+        boolean scheduled_service
+        string wikipedia_link
+        integer province_id FK
+        datetime created_at
+        datetime updated_at
+    }
+    AIRLINES {
+        integer id PK
+        string name
+        string iata_code
+        string icao_code
+        string callsign
+        string country
+        boolean active
+        datetime created_at
+        datetime updated_at
+    }
+    ROUTES {
+        integer id PK
+        integer airline_id FK
+        integer origin_airport_id FK
+        integer destination_airport_id FK
+        integer stops
+        string equipment
+        datetime created_at
+        datetime updated_at
+    }
+    REVIEWERS {
+        integer id PK
+        string name
+        string email
+        string home_city
+        datetime created_at
+        datetime updated_at
+    }
+    REVIEWS {
+        integer id PK
+        integer reviewer_id FK
+        integer airport_id FK
+        integer rating
+        string title
+        text comment
+        date visited_on
+        datetime created_at
+        datetime updated_at
+    }
