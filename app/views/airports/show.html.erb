@@ -1,0 +1,130 @@
+<% content_for :title, @airport.name %>
+
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><%= link_to "Provinces", provinces_path %></li>
+    <li class="breadcrumb-item"><%= link_to @airport.province.name, @airport.province %></li>
+    <li class="breadcrumb-item active" aria-current="page"><%= @airport.name %></li>
+  </ol>
+</nav>
+
+<h1><%= @airport.name %> <small class="text-muted">(<%= @airport.display_code %>)</small></h1>
+
+<div class="row g-4">
+  <div class="col-lg-5">
+    <div class="card mb-4">
+      <div class="card-header">Airport details</div>
+      <div class="card-body">
+        <dl class="row mb-0">
+          <dt class="col-sm-5">ICAO / ident</dt>
+          <dd class="col-sm-7"><%= @airport.ident %></dd>
+
+          <dt class="col-sm-5">IATA code</dt>
+          <dd class="col-sm-7"><%= @airport.iata_code.presence || "None" %></dd>
+
+          <dt class="col-sm-5">Type</dt>
+          <dd class="col-sm-7"><%= @airport.type_label %></dd>
+
+          <dt class="col-sm-5">City</dt>
+          <dd class="col-sm-7"><%= @airport.municipality %></dd>
+
+          <dt class="col-sm-5">Province / territory</dt>
+          <dd class="col-sm-7"><%= link_to @airport.province.name, @airport.province %></dd>
+
+          <dt class="col-sm-5">Latitude</dt>
+          <dd class="col-sm-7"><%= @airport.latitude %></dd>
+
+          <dt class="col-sm-5">Longitude</dt>
+          <dd class="col-sm-7"><%= @airport.longitude %></dd>
+
+          <dt class="col-sm-5">Elevation</dt>
+          <dd class="col-sm-7"><%= @airport.elevation_ft ? "#{@airport.elevation_ft} ft" : "Unknown" %></dd>
+
+          <dt class="col-sm-5">Scheduled service</dt>
+          <dd class="col-sm-7"><%= yes_no(@airport.scheduled_service) %></dd>
+
+          <dt class="col-sm-5">Average rating</dt>
+          <dd class="col-sm-7">
+            <% if @airport.average_rating %>
+              <%= @airport.average_rating %> / 5
+            <% else %>
+              Not yet reviewed
+            <% end %>
+          </dd>
+
+          <% if @airport.wikipedia_link.present? %>
+            <dt class="col-sm-5">More info</dt>
+            <dd class="col-sm-7"><%= link_to "Wikipedia", @airport.wikipedia_link %></dd>
+          <% end %>
+        </dl>
+      </div>
+    </div>
+
+    <h2 class="h4">Airlines departing here</h2>
+    <% if @airport.airlines.any? %>
+      <ul class="list-group mb-4">
+        <% @airport.airlines.order(:name).each do |airline| %>
+          <li class="list-group-item"><%= link_to airline.name, airline %></li>
+        <% end %>
+      </ul>
+    <% else %>
+      <p class="text-muted">No airline routes depart from this airport in the dataset.</p>
+    <% end %>
+  </div>
+
+  <div class="col-lg-7">
+    <%= render "shared/map",
+               label: "Map showing the location of #{@airport.name}",
+               markers: [{ name: @airport.name, code: @airport.display_code, lat: @airport.latitude.to_f, lng: @airport.longitude.to_f, url: airport_path(@airport) }] %>
+  </div>
+</div>
+
+<h2 class="h4">Departing routes (<%= @departing_routes.size %>)</h2>
+<% if @departing_routes.any? %>
+  <div class="table-responsive">
+    <table class="table table-sm table-striped align-middle">
+      <thead>
+        <tr>
+          <th scope="col">Destination</th>
+          <th scope="col">Airline</th>
+          <th scope="col">Stops</th>
+          <th scope="col">Equipment</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @departing_routes.each do |route| %>
+          <tr>
+            <td><%= link_to "#{route.destination_airport.name} (#{route.destination_airport.display_code})", route.destination_airport %></td>
+            <td><%= link_to route.airline.name, route.airline %></td>
+            <td><%= route.stops.zero? ? "Non-stop" : route.stops %></td>
+            <td><%= route.equipment %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+<% else %>
+  <p class="text-muted">No departing routes in the dataset.</p>
+<% end %>
+
+<h2 class="h4 mt-4">Traveller reviews (<%= @reviews.size %>)</h2>
+<% if @reviews.any? %>
+  <div class="row g-3">
+    <% @reviews.each do |review| %>
+      <div class="col-md-6">
+        <div class="card h-100">
+          <div class="card-body">
+            <h3 class="h6 card-title"><%= review.title %></h3>
+            <p class="stars mb-1"><span class="visually-hidden">Rating: <%= review.rating %> out of 5</span><span aria-hidden="true"><%= stars(review.rating) %></span></p>
+            <p class="card-text"><%= review.comment %></p>
+          </div>
+          <div class="card-footer small">
+            By <%= link_to review.reviewer.name, review.reviewer %> · visited <%= review.visited_on&.strftime("%B %-d, %Y") %>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+<% else %>
+  <p class="text-muted">No reviews yet.</p>
+<% end %>
